@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 251205160}
   - component: {fileID: 665935600}
   - component: {fileID: 2071620821}
+  - component: {fileID: 1131137961}
+  - component: {fileID: 4173511760569130023}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -132,6 +134,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1131137961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5046155395085873835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c045f38c2e2d0fd44a36d8bdca8a539b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4173511760569130023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5046155395085873835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec229555f706d84186a42ad04cbaf0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponRange: 2
 --- !u!1001 &2102181768012098497
 PrefabInstance:
   m_ObjectHideFlags: 0
