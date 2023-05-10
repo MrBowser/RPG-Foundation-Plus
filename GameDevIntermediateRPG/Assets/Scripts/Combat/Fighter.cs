@@ -1,3 +1,4 @@
+using RPG.Core;
 using RPG.Movement;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 namespace RPG.Combat
 {
 
-    public class Fighter : MonoBehaviour
+    public class Fighter : MonoBehaviour, IAction
     {
 
         [SerializeField] float weaponRange = 2f;
@@ -19,17 +20,25 @@ namespace RPG.Combat
             if(target == null) { return; }
             
             //note this is a short circuit function
+            
             if (!GetIsInRange())
             {
                 GetComponent<Mover>().MoveTo(target.position);
-
             }
             else
             {
-                GetComponent<Mover>().Stop();
+                GetComponent<Mover>().Cancel();
+                AttackBehavior();
             }
 
 
+
+        }
+
+        private void AttackBehavior()
+        {
+            //note should hash in an ideal world
+            GetComponent<Animator>().SetTrigger("attack");
         }
 
         private bool GetIsInRange()
@@ -39,14 +48,21 @@ namespace RPG.Combat
 
         public void Attack(CombatTarget combatTarget)
         {
+            GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
 
-            Debug.Log("takethat");
+            
         }
 
         public void Cancel()
         {
             target = null;
+        }
+
+        //this is an Animation Event necessary for the unarmed attack, called within the animator
+        void Hit()
+        {
+
         }
 
 
