@@ -35,13 +35,11 @@ namespace RPG.PlayerControls
 
             playerInput.PlayerControls.ClickMove.started += _ => OnClickMoveStarted();
             playerInput.PlayerControls.ClickMove.performed += _ => OnClickToMove();
-            
-
             //bote canceled triggers when the action has ended in this context it seems
             playerInput.PlayerControls.ClickMove.canceled += _ => OnClickToMoveCanceled();
 
 
-            //playerInput.PlayerControls.ClickMove. += _ => NoMoveBool();
+            
 
         }
 
@@ -128,8 +126,7 @@ namespace RPG.PlayerControls
             }
 
             return false;
-            //the below line shows a drawn ray in the editor for testing
-            //Debug.DrawRay(ray.origin, ray.direction * 100);
+           
         }
 
         private static Ray GetMouseRay()
@@ -142,7 +139,6 @@ namespace RPG.PlayerControls
             RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
             foreach (RaycastHit hit in hits)
             {
-
                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
                 if(target == null) continue;
 
@@ -150,10 +146,8 @@ namespace RPG.PlayerControls
                 {
                     GetComponent<Fighter>().Attack(target);
                     attackCheck = false;
-
                 }
                 return true;
-
             }
             attackCheck = false;
             return false;
@@ -166,3 +160,6 @@ namespace RPG.PlayerControls
 
 
 }
+
+//the below line shows a drawn ray in the editor for testing was originonally in MoveToCursor()
+//Debug.DrawRay(ray.origin, ray.direction * 100);
