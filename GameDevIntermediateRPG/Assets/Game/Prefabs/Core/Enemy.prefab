@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: healthPoints
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 251205160, guid: 373d91f4ba8e12140ad35add2ef4e8ec, type: 3}
+      propertyPath: m_Speed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5046155395085873835, guid: 373d91f4ba8e12140ad35add2ef4e8ec, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -153,6 +157,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f1251fe871befb46816ed8f33179a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5964305893392763622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2661026607148532208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4347db0384d1fa4cb0902795fac63c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseDistance: 5
 --- !u!4 &2661026607148532212 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5046155395085873839, guid: 373d91f4ba8e12140ad35add2ef4e8ec, type: 3}

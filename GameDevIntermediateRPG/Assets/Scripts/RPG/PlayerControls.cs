@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using RPG.Movement;
 using RPG.Combat;
 using System;
+using RPG.Core;
 
 namespace RPG.PlayerControls
 {
@@ -19,7 +20,7 @@ namespace RPG.PlayerControls
         Ray lastRay;
 
         PlayerInput playerInput;
-
+        Health health;
         NavMeshAgent playerMesh;
 
         bool moveShouldContinue;
@@ -37,16 +38,13 @@ namespace RPG.PlayerControls
             playerInput.PlayerControls.ClickMove.performed += _ => OnClickToMove();
             //bote canceled triggers when the action has ended in this context it seems
             playerInput.PlayerControls.ClickMove.canceled += _ => OnClickToMoveCanceled();
-
-
-            
-
         }
 
 
 
         private void Start()
         {
+            health = GetComponent<Health>();
             playerMesh = GetComponent<NavMeshAgent>();
         }
 
@@ -60,9 +58,16 @@ namespace RPG.PlayerControls
             playerInput.PlayerControls.Disable();
         }
 
+        private void Update()
+        {
+            
+        }
+
         void LateUpdate()
         {
-            if(InteractWithCombat())
+            if (health.IsDead()) { return; }
+
+            if (InteractWithCombat())
             {
                 return;
             }
@@ -93,17 +98,6 @@ namespace RPG.PlayerControls
         private void OnClickToMove()
         {
             moveHasStarted = true;
-            
-            
-            /* note, below is old code, might take out
-            if(attackCheck == false)
-            {
-               MoveToCursor();
-                print("this fired");                 
-            }
-            */
-
-            
         }
 
         //note I believe canceled is the equivalent to on mouse up for this instance with the new system so will toggle the follow cursor off
@@ -124,9 +118,7 @@ namespace RPG.PlayerControls
                 GetComponent<Mover>().StartMoveAction(hit.point);
                 return true;
             }
-
             return false;
-           
         }
 
         private static Ray GetMouseRay()
@@ -140,11 +132,15 @@ namespace RPG.PlayerControls
             foreach (RaycastHit hit in hits)
             {
                CombatTarget target = hit.transform.GetComponent<CombatTarget>();
-                if(target == null) continue;
+                if(target == null) { continue; }
+
+                
+                //note continute means that we end this iteration of hit with the foreach loop and move on to the next hit in hits, 
+                if (!GetComponent<Fighter>().CanAttack(target.gameObject)) { continue; }
 
                 if(attackCheck)
                 {
-                    GetComponent<Fighter>().Attack(target);
+                    GetComponent<Fighter>().Attack(target.gameObject);
                     attackCheck = false;
                 }
                 return true;
@@ -157,9 +153,15 @@ namespace RPG.PlayerControls
 
     }
 
-
-
 }
 
 //the below line shows a drawn ray in the editor for testing was originonally in MoveToCursor()
 //Debug.DrawRay(ray.origin, ray.direction * 100);
+
+/* note, below is old code, this used to be in OnClickToMove()
+           if(attackCheck == false)
+           {
+              MoveToCursor();
+               print("this fired");                 
+           }
+           */

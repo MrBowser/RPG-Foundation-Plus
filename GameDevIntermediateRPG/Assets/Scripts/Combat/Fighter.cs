@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RPG.Combat
 {
-
+    //important note, this is nifty since we are able to use this for both the player controls and AI controls, this is due to the modular nature of the code
     public class Fighter : MonoBehaviour, IAction
     {
 
@@ -17,7 +17,7 @@ namespace RPG.Combat
         
         
         Health target;
-        float timeSinceLastAttack = 0f;
+        float timeSinceLastAttack = Mathf.Infinity;
 
         void Update()
         {
@@ -37,28 +37,51 @@ namespace RPG.Combat
                 GetComponent<Mover>().Cancel();
                 AttackBehavior();
             }
+        }
 
+        public bool CanAttack(GameObject combatTarget)
+        {
+            if (combatTarget == null) { return false; }
 
+            Health targetToTest = combatTarget.GetComponent<Health>();
+            return targetToTest != null && !targetToTest.IsDead();
+        }
 
+        
+
+        public void Attack(GameObject combatTarget)
+        {
+            GetComponent<ActionScheduler>().StartAction(this);
+            target = combatTarget.GetComponent<Health>();
+
+            
         }
 
         private void AttackBehavior()
         {
             transform.LookAt(target.transform);
-            if(timeSinceLastAttack > timeBetweenAttacks) 
+            if (timeSinceLastAttack > timeBetweenAttacks)
             {
-                //note should hash in an ideal world, attach will trigger the Hit() event.
-                GetComponent<Animator>().SetTrigger("attack");
-                timeSinceLastAttack= 0f;
-                
+                TriggerAttack();
+                timeSinceLastAttack = 0f;
+
             }
-            
+
+        }
+
+        private void TriggerAttack()
+        {
+            //note should hash in an ideal world, attach will trigger the Hit() event.
+            //note we need to reset trigger for stopAttack since sometime when we cancel an attack the trigger may not have been consumed
+            //and if this is live at the start of an animation it can cause errors
+            GetComponent<Animator>().ResetTrigger("stopAttack");
+            GetComponent<Animator>().SetTrigger("attack");
         }
 
         //this is an Animation Event necessary for the unarmed attack, called within the animator
-        void Hit()
+        private void Hit()
         {
-            if(target == null) { return; }
+            if (target == null) { return; }
 
             target.TakeDamage(weaponDamage);
         }
@@ -68,23 +91,17 @@ namespace RPG.Combat
             return Vector3.Distance(transform.position, target.transform.position) <= weaponRange;
         }
 
-        public void Attack(CombatTarget combatTarget)
-        {
-            GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.GetComponent<Health>();
-
-            
-        }
-
         public void Cancel()
         {
-            GetComponent<Animator>().SetTrigger("stopAttack");
+            StopAttack();
             target = null;
         }
 
-       
-
-
+        private void StopAttack()
+        {
+            GetComponent<Animator>().ResetTrigger("attack");
+            GetComponent<Animator>().SetTrigger("stopAttack");
+        }
 
     }
 }
