@@ -21,7 +21,7 @@ namespace RPG.Core
         {
             healthPoints = Mathf.Max(healthPoints - damage,0);
 
-            Debug.Log(healthPoints.ToString());
+            
 
             if(healthPoints ==0)
             {

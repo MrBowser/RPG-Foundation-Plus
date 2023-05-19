@@ -9,7 +9,7 @@ using RPG.Combat;
 using System;
 using RPG.Core;
 
-namespace RPG.PlayerControls
+namespace RPG.Control
 {
 
     public class PlayerControls : MonoBehaviour
@@ -66,7 +66,7 @@ namespace RPG.PlayerControls
         void LateUpdate()
         {
             if (health.IsDead()) { return; }
-
+            
             if (InteractWithCombat())
             {
                 return;
@@ -98,12 +98,15 @@ namespace RPG.PlayerControls
         private void OnClickToMove()
         {
             moveHasStarted = true;
+            
+
         }
 
         //note I believe canceled is the equivalent to on mouse up for this instance with the new system so will toggle the follow cursor off
         private void OnClickToMoveCanceled()
         {
             moveShouldContinue = false;
+            attackCheck = false;
         }
 
 
@@ -115,7 +118,7 @@ namespace RPG.PlayerControls
 
             if (hasHit)
             {
-                GetComponent<Mover>().StartMoveAction(hit.point);
+                GetComponent<Mover>().StartMoveAction(hit.point,1f);
                 return true;
             }
             return false;
@@ -141,11 +144,13 @@ namespace RPG.PlayerControls
                 if(attackCheck)
                 {
                     GetComponent<Fighter>().Attack(target.gameObject);
-                    attackCheck = false;
+                    //note I have moved the false attackCheck to when the mouse lifts up, this means I will attack when scrolling over an enemy
+                    //the explicit click feels better but am keeping this way to match tutorial
+                    //attackCheck = false;
                 }
                 return true;
             }
-            attackCheck = false;
+            //attackCheck = false;
             return false;
         }
 

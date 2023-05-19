@@ -30,7 +30,7 @@ namespace RPG.Combat
             //note this is a short circuit function
             if (!GetIsInRange())
             {
-                GetComponent<Mover>().MoveTo(target.transform.position);
+                GetComponent<Mover>().MoveTo(target.transform.position,.9f);
             }
             else
             {
@@ -95,6 +95,7 @@ namespace RPG.Combat
         {
             StopAttack();
             target = null;
+            GetComponent<Mover>().Cancel();
         }
 
         private void StopAttack()
