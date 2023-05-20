@@ -2364,7 +2364,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586182522}
-  m_LocalRotation: {x: 0.22357085, y: -0.50747037, z: 0.13826035, w: 0.82059366}
+  m_LocalRotation: {x: 0.22357084, y: -0.5074704, z: 0.13826038, w: 0.82059366}
   m_LocalPosition: {x: -4.6193542, y: -9.624462, z: -1.1535182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2564,6 +2564,34 @@ PrefabInstance:
     - target: {fileID: 4213341489025105570, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460314785960211674, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460314785960211674, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460314785960211674, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.54832214
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460314785960211674, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460314785960211674, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.83626723
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460314785960211674, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460314785960211674, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -113.496
       objectReference: {fileID: 0}
     - target: {fileID: 4797582309410076860, guid: 40dcc18ea6378f5448dad4e97bbb3c80, type: 3}
       propertyPath: m_Name
