@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 
@@ -45,8 +46,14 @@ namespace RPG.SceneManagement
             Fader fader = FindObjectOfType<Fader>();
             yield return fader.FadeOut(FadeOutTime);
 
+            SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
+            //saves the important points of the exiting scene
+            wrapper.Save();
+
             DontDestroyOnLoad(gameObject);
             yield return SceneManager.LoadSceneAsync(SceneIndexToLoad);
+
+            wrapper.Load();
 
             otherPortal = GetOtherPortal();
 
@@ -74,8 +81,13 @@ namespace RPG.SceneManagement
         private void UpdatePlayer(Portal otherPortal)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
+            
+            //note the disables and enables of the nav mesh are due to some quirks of how the nav and terrain meshes seem to interact
+            // when dealing with scene persistance and accidently trying to send the player to past transform position from earliar scene 
+            player.GetComponent<NavMeshAgent>().enabled = false;
             player.transform.position = otherPortal.SpawnPoint.position;
             player.transform.rotation = otherPortal.SpawnPoint.rotation;
+            player.GetComponent<NavMeshAgent>().enabled = true;
 
         }
        
