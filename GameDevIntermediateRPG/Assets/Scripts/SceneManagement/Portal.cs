@@ -8,8 +8,19 @@ namespace RPG.SceneManagement
 {
     public class Portal : MonoBehaviour
     {
+        enum DestinationIdentifier
+        {
+            A,B,C,D,E,F,G,H
+        }
+
+
         [SerializeField] int SceneIndexToLoad =-1;
         [SerializeField] Transform SpawnPoint;
+        [SerializeField] DestinationIdentifier destination;
+
+        [SerializeField] float FadeInTime = 1f;
+        [SerializeField] float FadeOutTime = 1f;
+        [SerializeField] float FadeWaitTime = .25f;
 
         Portal otherPortal;
 
@@ -25,14 +36,25 @@ namespace RPG.SceneManagement
 
         private IEnumerator Transition()
         {
-            
+            if(SceneIndexToLoad <0)
+            {
+                Debug.Log("forgot to set transition");
+                yield break;
+            }
+
+            Fader fader = FindObjectOfType<Fader>();
+            yield return fader.FadeOut(FadeOutTime);
+
             DontDestroyOnLoad(gameObject);
             yield return SceneManager.LoadSceneAsync(SceneIndexToLoad);
 
             otherPortal = GetOtherPortal();
 
             UpdatePlayer(otherPortal);
-            
+
+            yield return new WaitForSeconds(FadeWaitTime);
+            yield return fader.FadeIn(FadeInTime);
+
             Destroy(gameObject);
         }
 
@@ -43,7 +65,7 @@ namespace RPG.SceneManagement
             foreach(Portal portal in FindObjectsOfType<Portal>())
             {
                 if(portal == this) { continue; }
-
+                if(portal.destination != destination) { continue; }
                 return portal;
             }
             return null;
