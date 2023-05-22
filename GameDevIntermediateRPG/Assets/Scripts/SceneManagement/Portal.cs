@@ -59,6 +59,9 @@ namespace RPG.SceneManagement
 
             UpdatePlayer(otherPortal);
 
+            //resaves as a checkpoint in new area
+            wrapper.Save();
+
             yield return new WaitForSeconds(FadeWaitTime);
             yield return fader.FadeIn(FadeInTime);
 
