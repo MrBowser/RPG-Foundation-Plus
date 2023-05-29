@@ -469,6 +469,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 006d28aa-2e3a-45a6-9977-03c531fb4661
       objectReference: {fileID: 0}
+    - target: {fileID: 6557554232102449020, guid: dd1f57fa9e09d714db50e1dd66c3adf5, type: 3}
+      propertyPath: defaultweapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 238d60e56a142324cbf19d4c1ad6c25a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd1f57fa9e09d714db50e1dd66c3adf5, type: 3}
 --- !u!4 &243833307 stripped
@@ -2239,7 +2243,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586182522}
-  m_LocalRotation: {x: 0.22357084, y: -0.5074704, z: 0.13826038, w: 0.82059366}
+  m_LocalRotation: {x: 0.22357085, y: -0.5074705, z: 0.13826041, w: 0.82059366}
   m_LocalPosition: {x: -4.6193542, y: -9.624462, z: -1.1535182}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -1,3 +1,4 @@
+using RPG.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,24 +13,21 @@ namespace RPG.Combat
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float weaponDamage = 5f;
         [SerializeField] bool isRightHanded = true;
+        [SerializeField] Projectile projectile = null;
+
+        public float GetWeaponRange { get { return weaponRange; } }
+        public float GetWeaponDamage { get { return weaponDamage; } }
+
 
         public void Spawn(Transform rightHandTransform, Transform leftHandTransform, Animator animator)
         {
             if(equippedPrefab!= null)
             {
-                Transform handTransform;
-                if(isRightHanded) 
-                {
-                    handTransform = rightHandTransform; 
-                }
-                else
-                {
-                    handTransform = leftHandTransform; 
-                }
+                Transform handTransform = GetTransform(rightHandTransform, leftHandTransform);
 
-                Instantiate(equippedPrefab, handTransform);               
+                Instantiate(equippedPrefab, handTransform);
             }
-            if(animatorOverride != null) 
+            if (animatorOverride != null) 
             {
                 animator.runtimeAnimatorController = animatorOverride;
             }
@@ -38,9 +36,34 @@ namespace RPG.Combat
 
         }
 
-       public float GetWeaponRange { get { return weaponRange; } }
-       public float GetWeaponDamage { get { return weaponDamage; } }
-        
+        public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
+        {
+            Projectile projectileInstance = Instantiate(projectile, GetTransform(rightHand,leftHand).position, Quaternion.identity);
+            projectileInstance.SetTarget(target, weaponDamage);
+
+        }
+
+        public bool HasProjectile()
+        {
+            return projectile != null;
+        }
+
+
+        private Transform GetTransform(Transform rightHandTransform, Transform leftHandTransform)
+        {
+            Transform handTransform;
+            if (isRightHanded)
+            {
+                handTransform = rightHandTransform;
+            }
+            else
+            {
+                handTransform = leftHandTransform;
+            }
+
+            return handTransform;
+        }
+
     }
 
 
