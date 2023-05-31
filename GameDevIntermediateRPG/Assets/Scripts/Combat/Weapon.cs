@@ -1,4 +1,5 @@
 using RPG.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,14 +19,19 @@ namespace RPG.Combat
         public float GetWeaponRange { get { return weaponRange; } }
         public float GetWeaponDamage { get { return weaponDamage; } }
 
+        const string weaponName = "Weapon";
 
         public void Spawn(Transform rightHandTransform, Transform leftHandTransform, Animator animator)
         {
+
+            DestroyOldWeapon(rightHandTransform,leftHandTransform);
+
             if(equippedPrefab!= null)
             {
                 Transform handTransform = GetTransform(rightHandTransform, leftHandTransform);
 
-                Instantiate(equippedPrefab, handTransform);
+                GameObject weapon = Instantiate(equippedPrefab, handTransform);
+                weapon.name= weaponName;
             }
             if (animatorOverride != null) 
             {
@@ -34,6 +40,20 @@ namespace RPG.Combat
             
 
 
+        }
+
+        private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
+        {
+            Transform oldWeapon = rightHand.Find(weaponName);
+            if(oldWeapon == null)
+            {
+                oldWeapon = leftHand.Find(weaponName);
+            }
+            if(oldWeapon == null) { return; }
+
+            oldWeapon.name = "Destroying";
+
+            Destroy(oldWeapon.gameObject);
         }
 
         public void LaunchProjectile(Transform rightHand, Transform leftHand, Health target)
@@ -47,7 +67,6 @@ namespace RPG.Combat
         {
             return projectile != null;
         }
-
 
         private Transform GetTransform(Transform rightHandTransform, Transform leftHandTransform)
         {
