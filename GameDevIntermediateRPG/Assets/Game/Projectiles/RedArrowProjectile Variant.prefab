@@ -52,6 +52,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3323488400473194362, guid: 17f4162369d6bcc4ea8012f37ae2e2ff, type: 3}
+      propertyPath: hitEffect
+      value: 
+      objectReference: {fileID: 323013138214409569, guid: f3e0cee1d96bc5347befbf6a8bb9b12f, type: 3}
+    - target: {fileID: 3323488400473194362, guid: 17f4162369d6bcc4ea8012f37ae2e2ff, type: 3}
       propertyPath: StraightLine
       value: 1
       objectReference: {fileID: 0}

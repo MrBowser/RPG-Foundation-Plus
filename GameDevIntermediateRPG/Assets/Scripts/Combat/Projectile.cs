@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] float projectileSpeed = 1f;
     [SerializeField] bool StraightLine = false;
+    [SerializeField] GameObject hitEffect = null;
     Health target = null;
     float damage = 0f;
 
@@ -61,6 +62,10 @@ public class Projectile : MonoBehaviour
         if (target.IsDead()) { return; }
 
         target.TakeDamage(damage);
+        if(hitEffect != null)
+        {
+            Instantiate(hitEffect, GetAimLocation(), transform.rotation);
+        }
         
         Destroy(gameObject);
     }
