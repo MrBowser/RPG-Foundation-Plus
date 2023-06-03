@@ -1,5 +1,6 @@
 using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace RPG.Combat
 {
     //important note, this is nifty since we are able to use this for both the player controls and AI controls, this is due to the modular nature of the code
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable
     {
 
         
@@ -18,7 +19,7 @@ namespace RPG.Combat
 
         [SerializeField] Transform rightHandTransform = null;
         [SerializeField] Transform leftHandTransform = null;
-
+        //[SerializeField] string defaultWeaponName = "Unarmed";
 
         Weapon currentWeapon = null;
         Health target;
@@ -28,8 +29,14 @@ namespace RPG.Combat
 
         private void Start()
         {
+            //note I think this is special and directly links to a Resources folder or I think any named folder??
+            //Weapon weapon = Resources.Load<Weapon>(defaultWeaponName);
             
-            EquipWeapon(defaultweapon);
+            if(currentWeapon== null)
+            {
+                EquipWeapon(defaultweapon);
+            }
+            
             
             
         }
@@ -145,6 +152,17 @@ namespace RPG.Combat
             GetComponent<Animator>().SetTrigger("stopAttack");
         }
 
+        public object CaptureState()
+        {
+            return currentWeapon.name;
+        }
+
+        public void RestoreState(object state)
+        {
+            string weaponName = (string)state;
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
+        }
     }
 }
 
