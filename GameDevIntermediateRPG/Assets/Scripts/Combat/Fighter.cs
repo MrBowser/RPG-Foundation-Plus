@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Attributes;
 
 
 namespace RPG.Combat
@@ -29,7 +30,7 @@ namespace RPG.Combat
 
         private void Start()
         {
-            //note I think this is special and directly links to a Resources folder or I think any named folder??
+            //note I think this is special and directly links to a Resources folder // Resources folders are treated uniquely in unity
             //Weapon weapon = Resources.Load<Weapon>(defaultWeaponName);
             
             if(currentWeapon== null)
