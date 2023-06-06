@@ -2,11 +2,12 @@ using RPG.Attributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Stats;
 using TMPro;
 
 
 
-namespace RPG.Attributes
+namespace RPG.Stats
 {
     public class ExperienceDisplay : MonoBehaviour
     {
