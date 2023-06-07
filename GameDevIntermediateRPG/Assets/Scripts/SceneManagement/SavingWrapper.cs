@@ -21,6 +21,7 @@ namespace RPG.SceneManagement
 
             playerInput.PlayerControls.SaveCommandLoad.performed += _ => Load();
             playerInput.PlayerControls.SaveCommandSave.performed += _ => Save();
+            playerInput.PlayerControls.DeleteSaveFile.performed += _ => DeleteSaveFile();  
 
         }
 
@@ -61,6 +62,11 @@ namespace RPG.SceneManagement
         {
             print("save");
             GetComponent<SavingSystem>().Save(defaultSaveFile);
+        }
+
+        public void DeleteSaveFile()
+        {
+            GetComponent<SavingSystem>().Delete(defaultSaveFile);
         }
 
     }

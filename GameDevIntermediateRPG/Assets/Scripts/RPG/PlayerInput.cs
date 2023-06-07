@@ -53,6 +53,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DeleteSaveFile"",
+                    ""type"": ""Button"",
+                    ""id"": ""a11f4728-8624-4a1e-ba7c-d488b8bc09b6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""SaveCommandSave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8bed73fd-b750-4953-aac5-9eba168f527b"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DeleteSaveFile"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +119,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_PlayerControls_ClickMove = m_PlayerControls.FindAction("ClickMove", throwIfNotFound: true);
         m_PlayerControls_SaveCommandLoad = m_PlayerControls.FindAction("SaveCommandLoad", throwIfNotFound: true);
         m_PlayerControls_SaveCommandSave = m_PlayerControls.FindAction("SaveCommandSave", throwIfNotFound: true);
+        m_PlayerControls_DeleteSaveFile = m_PlayerControls.FindAction("DeleteSaveFile", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,6 +182,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_ClickMove;
     private readonly InputAction m_PlayerControls_SaveCommandLoad;
     private readonly InputAction m_PlayerControls_SaveCommandSave;
+    private readonly InputAction m_PlayerControls_DeleteSaveFile;
     public struct PlayerControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -168,6 +190,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @ClickMove => m_Wrapper.m_PlayerControls_ClickMove;
         public InputAction @SaveCommandLoad => m_Wrapper.m_PlayerControls_SaveCommandLoad;
         public InputAction @SaveCommandSave => m_Wrapper.m_PlayerControls_SaveCommandSave;
+        public InputAction @DeleteSaveFile => m_Wrapper.m_PlayerControls_DeleteSaveFile;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,6 +209,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @SaveCommandSave.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSaveCommandSave;
                 @SaveCommandSave.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSaveCommandSave;
                 @SaveCommandSave.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnSaveCommandSave;
+                @DeleteSaveFile.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDeleteSaveFile;
+                @DeleteSaveFile.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDeleteSaveFile;
+                @DeleteSaveFile.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDeleteSaveFile;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -199,6 +225,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @SaveCommandSave.started += instance.OnSaveCommandSave;
                 @SaveCommandSave.performed += instance.OnSaveCommandSave;
                 @SaveCommandSave.canceled += instance.OnSaveCommandSave;
+                @DeleteSaveFile.started += instance.OnDeleteSaveFile;
+                @DeleteSaveFile.performed += instance.OnDeleteSaveFile;
+                @DeleteSaveFile.canceled += instance.OnDeleteSaveFile;
             }
         }
     }
@@ -208,5 +237,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnClickMove(InputAction.CallbackContext context);
         void OnSaveCommandLoad(InputAction.CallbackContext context);
         void OnSaveCommandSave(InputAction.CallbackContext context);
+        void OnDeleteSaveFile(InputAction.CallbackContext context);
     }
 }
