@@ -24,7 +24,10 @@ namespace RPG.Attributes
         {
             //print(healthValue.text);
 
-            healthValue.text = $"{Mathf.Round(health.GetPercentage())}%";
+            healthValue.text = $"{Mathf.Round(health.GetHealthPoints())} / {Mathf.Round(health.GetMaxHealthPoints())}";
+
+            //below is for %
+            //healthValue.text = $"{Mathf.Round(health.GetPercentage())}%";
 
             //below is alternate way to get the above
             //healthValue.text = string.Format("{0:0}%", health.GetPercentage());

@@ -28,7 +28,9 @@ namespace RPG.Combat
 
             if(fighter.GetTarget() != null )
             {
-                healthValue.text = $"{Mathf.Round(health.GetPercentage())}%";
+                healthValue.text = $"{Mathf.Round(health.GetHealthPoints())} / {Mathf.Round(health.GetMaxHealthPoints())}";
+
+                //healthValue.text = $"{Mathf.Round(health.GetPercentage())}%";
             }
             else
             {

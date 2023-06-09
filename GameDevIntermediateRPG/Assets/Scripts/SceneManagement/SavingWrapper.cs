@@ -21,11 +21,13 @@ namespace RPG.SceneManagement
 
             playerInput.PlayerControls.SaveCommandLoad.performed += _ => Load();
             playerInput.PlayerControls.SaveCommandSave.performed += _ => Save();
-            playerInput.PlayerControls.DeleteSaveFile.performed += _ => DeleteSaveFile();  
+            playerInput.PlayerControls.DeleteSaveFile.performed += _ => DeleteSaveFile();
+
+            StartCoroutine(LoadLastScene());
 
         }
 
-        IEnumerator Start()
+        IEnumerator LoadLastScene()
         {
             Fader fader = FindObjectOfType<Fader>();
             fader.fadeOutImmediate();
