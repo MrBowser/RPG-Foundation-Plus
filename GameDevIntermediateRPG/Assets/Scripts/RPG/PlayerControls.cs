@@ -16,18 +16,34 @@ namespace RPG.Control
     public class PlayerControls : MonoBehaviour
     {
 
-
-
         Ray lastRay;
 
         PlayerInput playerInput;
         Health health;
+
         NavMeshAgent playerMesh;
 
         bool moveShouldContinue;
         bool moveHasStarted;
         //note this is a bool turned on with start of click that turns offs after interact with combat runsthrough
         bool attackCheck;
+
+        enum CursorType
+        {
+            None,
+            Movement,
+            Combat
+        }
+
+        [System.Serializable]
+        struct CursorMapping
+        {
+            public CursorType type;
+            public Texture2D texture;
+            public Vector2 hotspot;
+        }
+
+        [SerializeField] CursorMapping[] cursorMappings = null;
 
 
         void Awake()
@@ -39,14 +55,16 @@ namespace RPG.Control
             playerInput.PlayerControls.ClickMove.performed += _ => OnClickToMove();
             //bote canceled triggers when the action has ended in this context it seems
             playerInput.PlayerControls.ClickMove.canceled += _ => OnClickToMoveCanceled();
+
+            health = GetComponent<Health>();
+            playerMesh = GetComponent<NavMeshAgent>();
         }
 
 
 
         private void Start()
         {
-            health = GetComponent<Health>();
-            playerMesh = GetComponent<NavMeshAgent>();
+           
         }
 
         private void OnEnable()
@@ -81,11 +99,15 @@ namespace RPG.Control
             if (moveShouldContinue && moveHasStarted)
             {
                 bool canMove = MoveToCursor();
-                
+                SetCursor(CursorType.Movement);
                 if (canMove == false)
                 {
                     ///can ignore right now just allows us to do something if no ray is hit on click
                 }
+            }
+            else
+            {
+                SetCursor(CursorType.None);
             }
         }
 
@@ -149,14 +171,31 @@ namespace RPG.Control
                     //the explicit click feels better but am keeping this way to match tutorial
                     //attackCheck = false;
                 }
+                SetCursor(CursorType.Combat);
                 return true;
             }
+
             //attackCheck = false;
             return false;
         }
 
+        private void SetCursor(CursorType cursorType)
+        {
+            CursorMapping mapping = GetCursorMapping(cursorType);
+            Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
+        }
 
-
+        private CursorMapping GetCursorMapping(CursorType cursorType)
+        {
+            foreach(CursorMapping mapping in cursorMappings)
+            {
+                if(mapping.type == cursorType)
+                {
+                    return mapping;
+                }
+            }
+            return cursorMappings[0];
+        }
     }
 
 }
