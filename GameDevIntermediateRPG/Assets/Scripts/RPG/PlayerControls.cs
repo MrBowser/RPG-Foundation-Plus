@@ -19,22 +19,16 @@ namespace RPG.Control
     {
 
         Ray lastRay;
-
         PlayerInput playerInput;
         Health health;
-
         NavMeshAgent playerMesh;
-
         bool moveShouldContinue;
         bool moveHasStarted;
         //note this is a bool turned on with start of click that turns offs after interact with combat runsthrough
         bool attackCheck;
 
-        
-
         public bool GetMoveShouldContinue { get { return moveShouldContinue; } }
         public bool GetAttackCheck { get { return attackCheck; } }
-
 
         [System.Serializable]
         struct CursorMapping
@@ -46,6 +40,7 @@ namespace RPG.Control
 
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float maxNavMeshProjectionDistance = 1;
+        [SerializeField] float maxNavPathLength = 40f;
 
 
         void Awake()
@@ -62,13 +57,6 @@ namespace RPG.Control
             playerMesh = GetComponent<NavMeshAgent>();
         }
 
-
-
-        private void Start()
-        {
-           
-        }
-
         private void OnEnable()
         {
             playerInput.PlayerControls.Enable();
@@ -79,24 +67,12 @@ namespace RPG.Control
             playerInput.PlayerControls.Disable();
         }
 
-        private void Update()
-        {
-            
-        }
-
         void LateUpdate()
         {
             if(InteractWithUI()) { return; }
             if (health.IsDead()) { SetCursor(CursorType.None); return; }
-            
             if(InteractWithComponent()) { return; }
-            
-            /*
-            if (InteractWithCombat())
-            {
-                return;
-            }
-            */
+
             InteractWithMovement();
             
         }
@@ -114,8 +90,6 @@ namespace RPG.Control
                         SetCursor(raycastable.GetCursorType());
 
                         return true;
-
-                        //return false;
                     }
                 }
             }
@@ -132,8 +106,6 @@ namespace RPG.Control
                 distances[i] = hits[i].distance;
             }
             Array.Sort(distances, hits);
-
-
             return hits; 
         }
 
@@ -146,9 +118,6 @@ namespace RPG.Control
                 return true;
             }
             return false;
-
-           
-            
         }
 
         private void InteractWithMovement()
@@ -173,8 +142,6 @@ namespace RPG.Control
             }
         }
 
-      
-
         private void OnClickMoveStarted()
         {
             moveShouldContinue = true;
@@ -185,8 +152,6 @@ namespace RPG.Control
         private void OnClickToMove()
         {
             moveHasStarted = true;
-            
-
         }
 
         //note I believe canceled is the equivalent to on mouse up for this instance with the new system so will toggle the follow cursor off
@@ -195,7 +160,6 @@ namespace RPG.Control
             moveShouldContinue = false;
             attackCheck = false;
         }
-
 
         private bool MoveToCursor()
         {
@@ -225,16 +189,33 @@ namespace RPG.Control
             if(!hasCastToNavMesh) { return false; }
             target = navMeshHit.position;
 
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
+
+            if(!hasPath) { return false; }
+            if(path.status != NavMeshPathStatus.PathComplete) { return false; } 
+            if(GetPathLength(path) > maxNavPathLength) { return false; }
+
             return true;
+        }
+
+        private float GetPathLength(NavMeshPath path)
+        {
+            float total = 0;
+            if(path.corners.Length < 2) { return total; }
+            
+            for (int i = 0; i < path.corners.Length -1; i++)
+            {
+                total += Vector3.Distance(path.corners[i], path.corners[i+1]);
+            }
+
+            return total;
         }
 
         private static Ray GetMouseRay()
         {
             return Camera.main.ScreenPointToRay(Input.mousePosition);
         }
-
-
-
 
         private void SetCursor(CursorType cursorType)
         {
@@ -281,5 +262,12 @@ private bool InteractWithCombat()
 
     //attackCheck = false;
     return false;
+}
+*/
+
+/* Late Update
+if (InteractWithCombat())
+{
+    return;
 }
 */
