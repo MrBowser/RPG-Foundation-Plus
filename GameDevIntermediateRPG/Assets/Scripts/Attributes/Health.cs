@@ -6,6 +6,7 @@ using RPG.Stats;
 using RPG.Core;
 using System;
 using GameDevTV.Utils;
+using UnityEngine.Events;
 
 namespace RPG.Attributes
 {
@@ -13,6 +14,13 @@ namespace RPG.Attributes
     {
 
         [SerializeField] float regenerationPercentage = 100;
+        [SerializeField] TakeDamageEvent takeDamage;
+
+        //this is to add events to the unity editor
+        [System.Serializable]
+        public class TakeDamageEvent : UnityEvent<float>
+        { }
+
 
         LazyValue<float> healthPoints;
 
@@ -34,6 +42,7 @@ namespace RPG.Attributes
         {
             //note this is showing how to do a lazy initialization
             healthPoints.ForceInit();
+            
 
 
             //legacy code
@@ -73,6 +82,11 @@ namespace RPG.Attributes
                 Die();
                 AwardExperience(instigator);
             }
+            else
+            {
+                takeDamage.Invoke(damage);
+            }
+            
 
         }
 
@@ -102,6 +116,8 @@ namespace RPG.Attributes
         }
 
         public float GetPercentage() { return 100 * (healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health)); }
+
+        public float GetFraction() { return (healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health)); }
 
         private void Die()
         {
