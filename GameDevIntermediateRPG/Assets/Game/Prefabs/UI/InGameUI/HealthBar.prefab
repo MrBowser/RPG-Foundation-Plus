@@ -238,6 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthComponent: {fileID: 0}
   foreground: {fileID: 3257930396240476891}
+  rootCavas: {fileID: 8208790336652216172}
 --- !u!1 &8117813822774994290
 GameObject:
   m_ObjectHideFlags: 0
