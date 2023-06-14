@@ -15,17 +15,15 @@ namespace RPG.Attributes
 
         [SerializeField] float regenerationPercentage = 100;
         [SerializeField] TakeDamageEvent takeDamage;
+        [SerializeField] UnityEvent onDie;
 
         //this is to add events to the unity editor
         [System.Serializable]
         public class TakeDamageEvent : UnityEvent<float>
         { }
 
-
         LazyValue<float> healthPoints;
-
         bool isDead = false;
-
 
         private void Awake()
         {
@@ -42,15 +40,6 @@ namespace RPG.Attributes
         {
             //note this is showing how to do a lazy initialization
             healthPoints.ForceInit();
-            
-
-
-            //legacy code
-            //if(healthPoints <0)
-            //{
-            //    healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
-            //}
-           
         }
 
         private void OnEnable()
@@ -63,13 +52,10 @@ namespace RPG.Attributes
             GetComponent<BaseStats>().OnLevelUp -= RegenerateHealth;
         }
 
-
         public bool IsDead()
         {
             return isDead;
         }
-
-      
 
         public void TakeDamage(GameObject instigator, float damage)
         {
@@ -79,6 +65,7 @@ namespace RPG.Attributes
 
             if(healthPoints.value ==0)
             {
+                onDie.Invoke();
                 Die();
                 AwardExperience(instigator);
             }
@@ -86,8 +73,6 @@ namespace RPG.Attributes
             {
                 takeDamage.Invoke(damage);
             }
-            
-
         }
 
         public float GetHealthPoints()
@@ -104,7 +89,6 @@ namespace RPG.Attributes
         {
             float regenHealthPoints = GetComponent<BaseStats>().GetStat(Stat.Health) * regenerationPercentage /100;
             healthPoints.value = Mathf.Max(healthPoints.value, regenHealthPoints);
-            
         }
 
         private void AwardExperience(GameObject instigator)
@@ -157,3 +141,9 @@ namespace RPG.Attributes
     }
 }
 
+
+//legacy start code
+//if(healthPoints <0)
+//{
+//    healthPoints = GetComponent<BaseStats>().GetStat(Stat.Health);
+//}
