@@ -23,35 +23,32 @@ namespace RPG.Combat
         [SerializeField] Transform leftHandTransform = null;
         //[SerializeField] string defaultWeaponName = "Unarmed";
 
-        LazyValue<Weapon> currentWeapon;
+        Weapon currentWeaponConfig;
         Health target;
+        LazyValue<WeaponCore> currentWeaponCore;
         float timeSinceLastAttack = Mathf.Infinity;
 
 
 
         private void Awake()
         {
-            currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
+            currentWeaponConfig = defaultweapon;
+            currentWeaponCore = new LazyValue<WeaponCore>(SetupDefaultWeapon);
+
         }
 
-        private Weapon SetupDefaultWeapon()
+        private WeaponCore SetupDefaultWeapon()
         {
-            AttachWeapon(defaultweapon);
-            return defaultweapon;
+
+            return AttachWeapon(defaultweapon);
         }
 
         private void Start()
         {
-
-            currentWeapon.ForceInit();
-            //note I think this is special and directly links to a Resources folder // Resources folders are treated uniquely in unity
-            //Weapon weapon = Resources.Load<Weapon>(defaultWeaponName);
-            /*
-            if(currentWeapon== null)
-            {
-                EquipWeapon(defaultweapon);
-            }
-            */
+            currentWeaponCore.ForceInit();
+            //AttachWeapon(currentWeaponConfig);
+            
+  
             
             
             
@@ -81,14 +78,14 @@ namespace RPG.Combat
 
         public void EquipWeapon(Weapon weapon)
         {
-            currentWeapon.value = weapon;
-            AttachWeapon(weapon);
+            currentWeaponConfig = weapon;
+            currentWeaponCore.value = AttachWeapon(weapon);
         }
 
-        private void AttachWeapon(Weapon weapon)
+        private WeaponCore AttachWeapon(Weapon weapon)
         {
             Animator animator = GetComponent<Animator>();
-            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+            return weapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         public Health GetTarget()
@@ -141,18 +138,21 @@ namespace RPG.Combat
             if (target == null) { return; }
 
             float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
-           
-            if (currentWeapon.value.HasProjectile() == true)
+
+            if(currentWeaponCore.value != null)
             {
-                currentWeapon.value.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
+                currentWeaponCore.value.OnHit();
+            }
+           
+            if (currentWeaponConfig.HasProjectile() == true)
+            {
+                currentWeaponConfig.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
             }
             else
             {
                 
                 target.TakeDamage(gameObject, damage);
             }
-
-            
 
         }
 
@@ -165,7 +165,7 @@ namespace RPG.Combat
         private bool GetIsInRange()
         {
             
-            return Vector3.Distance(transform.position, target.transform.position) <= currentWeapon.value.GetWeaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) <= currentWeaponConfig.GetWeaponRange;
         }
 
         public void Cancel()
@@ -185,7 +185,7 @@ namespace RPG.Combat
         {
             if(stat == Stat.Damage)
             {
-                yield return currentWeapon.value.GetWeaponDamage;
+                yield return currentWeaponConfig.GetWeaponDamage;
             }
         }
 
@@ -193,13 +193,13 @@ namespace RPG.Combat
         {
             if (stat == Stat.Damage)
             {
-                yield return currentWeapon.value.GetPercentageDamageBonus;
+                yield return currentWeaponConfig.GetPercentageDamageBonus;
             }
         }
 
         public object CaptureState()
         {
-            return currentWeapon.value.name;
+            return currentWeaponConfig.name;
         }
 
         public void RestoreState(object state)
@@ -214,3 +214,12 @@ namespace RPG.Combat
     }
 }
 
+//legacy code in start
+//note I think this is special and directly links to a Resources folder // Resources folders are treated uniquely in unity
+//Weapon weapon = Resources.Load<Weapon>(defaultWeaponName);
+/*
+if(currentWeapon== null)
+{
+    EquipWeapon(defaultweapon);
+}
+*/

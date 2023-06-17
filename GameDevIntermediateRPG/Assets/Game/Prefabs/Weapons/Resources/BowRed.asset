@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: BowRed
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 22100000, guid: 4eca8bbab6141ca4d9649b0cb4d5d7da, type: 2}
-  equippedPrefab: {fileID: 5804222594936428171, guid: 58be206befb2fd247ba2648d20688aed, type: 3}
+  equippedPrefab: {fileID: 8791129890790068190, guid: 58be206befb2fd247ba2648d20688aed, type: 3}
   weaponRange: 7
   weaponDamage: 5
+  percentageDamageBonus: 0
   isRightHanded: 0
   projectile: {fileID: 1174542125129455735, guid: 8d65e2f0407e83f46bcc88a9f7466f42, type: 3}

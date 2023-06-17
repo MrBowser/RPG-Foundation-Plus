@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BowBlue
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 22100000, guid: 4eca8bbab6141ca4d9649b0cb4d5d7da, type: 2}
-  equippedPrefab: {fileID: 5804222594936428171, guid: 58be206befb2fd247ba2648d20688aed, type: 3}
+  equippedPrefab: {fileID: 8791129890790068190, guid: 58be206befb2fd247ba2648d20688aed, type: 3}
   weaponRange: 10
   weaponDamage: 5
   percentageDamageBonus: 0

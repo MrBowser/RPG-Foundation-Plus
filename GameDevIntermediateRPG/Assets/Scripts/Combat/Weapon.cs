@@ -7,11 +7,13 @@ using RPG.Attributes;
 
 namespace RPG.Combat
 {
+    //note this was renamed weaponConfig in gamedev lectures
+
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make New Weapon", order = 0)]
     public class Weapon : ScriptableObject
     {
         [SerializeField] AnimatorOverrideController animatorOverride = null;
-        [SerializeField] GameObject equippedPrefab = null;
+        [SerializeField] WeaponCore equippedPrefab = null;
         [SerializeField] float weaponRange = 2f;
         [SerializeField] float weaponDamage = 5f;
         [SerializeField] float percentageDamageBonus = 0;
@@ -24,17 +26,18 @@ namespace RPG.Combat
 
         const string weaponName = "Weapon";
 
-        public void Spawn(Transform rightHandTransform, Transform leftHandTransform, Animator animator)
+        public WeaponCore Spawn(Transform rightHandTransform, Transform leftHandTransform, Animator animator)
         {
 
             DestroyOldWeapon(rightHandTransform,leftHandTransform);
 
+            WeaponCore weapon = null;
             if(equippedPrefab!= null)
             {
                 Transform handTransform = GetTransform(rightHandTransform, leftHandTransform);
 
-                GameObject weapon = Instantiate(equippedPrefab, handTransform);
-                weapon.name= weaponName;
+                weapon = Instantiate(equippedPrefab, handTransform);
+                weapon.gameObject.name= weaponName;
             }
             var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride != null) 
@@ -46,8 +49,8 @@ namespace RPG.Combat
                 animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
 
             }
-            
 
+            return weapon;
 
         }
 
