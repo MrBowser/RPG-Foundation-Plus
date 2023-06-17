@@ -16,9 +16,6 @@ namespace RPG.Combat
         [SerializeField] float healthToRestore = 0;
         [SerializeField] float respawnTime = 5f;
 
-
-        
-
         private void Awake()
         {
             
@@ -30,7 +27,6 @@ namespace RPG.Combat
             {
                 Pickup(other.gameObject);
             }
-
         }
 
         private void Pickup(GameObject subject)
@@ -42,8 +38,7 @@ namespace RPG.Combat
             if(healthToRestore> 0)
             {
                 subject.GetComponent<Health>().Heal(healthToRestore);
-            }
-            
+            }            
             //Destroy(gameObject);
             StartCoroutine(HideForSeconds(respawnTime));
         }
@@ -56,7 +51,6 @@ namespace RPG.Combat
 
             ShowPickup(true);
         }
-
 
         private void ShowPickup(bool pickUpStatus)
         {
@@ -78,11 +72,7 @@ namespace RPG.Combat
                 //below line is not in the course, this is added cause I hate the click to pick up versus collider method
                 playerControls.GetComponent<Mover>().StartMoveAction(this.transform.position,1);
             }
-
-            
-
             return true;
-            
         }
 
         public CursorType GetCursorType()

@@ -14,7 +14,6 @@ using RPG.Control;
 
 namespace RPG.Control
 {
-
     public class PlayerControls : MonoBehaviour
     {
 
@@ -41,7 +40,6 @@ namespace RPG.Control
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float maxNavMeshProjectionDistance = 1;
         [SerializeField] float maxNavPathLength = 40f;
-
 
         void Awake()
         {
@@ -74,7 +72,6 @@ namespace RPG.Control
             if(InteractWithComponent()) { return; }
 
             InteractWithMovement();
-            
         }
 
         private bool InteractWithComponent()
@@ -163,7 +160,6 @@ namespace RPG.Control
 
         private bool MoveToCursor()
         {
-            
             Vector3 target;
             bool hasHit = RaycastNavMesh(out target);
             if (hasHit)
@@ -171,7 +167,6 @@ namespace RPG.Control
                 GetComponent<Mover>().StartMoveAction(target,1f);
                 return true;
             }
-            print("no hit");
             return false;
         }
 
@@ -208,7 +203,6 @@ namespace RPG.Control
             {
                 total += Vector3.Distance(path.corners[i], path.corners[i+1]);
             }
-
             return total;
         }
 

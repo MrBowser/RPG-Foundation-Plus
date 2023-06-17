@@ -11,7 +11,6 @@ namespace RPG.Stats
 {
     public class ExperienceDisplay : MonoBehaviour
     {
-
         Experience experience;
         TextMeshProUGUI xpValue;
 

@@ -15,7 +15,6 @@ namespace RPG.SceneManagement
             A,B,C,D,E,F,G,H
         }
 
-
         [SerializeField] int SceneIndexToLoad =-1;
         [SerializeField] Transform SpawnPoint;
         [SerializeField] DestinationIdentifier destination;
@@ -30,9 +29,7 @@ namespace RPG.SceneManagement
         {
             if(other.tag =="Player")
             {
-
                 StartCoroutine(Transition());
-                
             }
         }
 
@@ -74,8 +71,6 @@ namespace RPG.SceneManagement
             Destroy(gameObject);
         }
 
-
-
         private Portal GetOtherPortal()
         {
             foreach(Portal portal in FindObjectsOfType<Portal>())
@@ -99,6 +94,5 @@ namespace RPG.SceneManagement
             player.GetComponent<NavMeshAgent>().enabled = true;
 
         }
-       
     }
 }

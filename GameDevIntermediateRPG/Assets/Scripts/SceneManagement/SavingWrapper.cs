@@ -24,17 +24,14 @@ namespace RPG.SceneManagement
             playerInput.PlayerControls.DeleteSaveFile.performed += _ => DeleteSaveFile();
 
             StartCoroutine(LoadLastScene());
-
         }
 
         IEnumerator LoadLastScene()
         {
-           
             yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
             Fader fader = FindObjectOfType<Fader>();
             fader.fadeOutImmediate();
             yield return fader.FadeIn(fadeInTime);
-
         }
 
         private void OnEnable()
@@ -47,12 +44,6 @@ namespace RPG.SceneManagement
         private void OnDisable()
         {
             playerInput.PlayerControls.Disable();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
         }
 
         public void Load()

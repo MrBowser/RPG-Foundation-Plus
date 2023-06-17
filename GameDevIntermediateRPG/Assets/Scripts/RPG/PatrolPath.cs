@@ -18,8 +18,6 @@ namespace RPG.Control
                 Gizmos.DrawSphere(GetWayPoint(i), wayPointGizmoRadios);
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(GetWayPoint(i), GetWayPoint(j));
-
-
             }
         }
 

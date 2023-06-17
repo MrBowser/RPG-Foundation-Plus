@@ -84,6 +84,9 @@ namespace RPG.Attributes
         {
             return healthPoints.value;
         }
+        public float GetPercentage() { return 100 * (healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health)); }
+
+        public float GetFraction() { return (healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health)); }
 
         public float GetMaxHealthPoints()
         {
@@ -104,10 +107,6 @@ namespace RPG.Attributes
             experience.GainExperience(GetComponent<BaseStats>().GetStat(Stat.ExperienceReward));
         }
 
-        public float GetPercentage() { return 100 * (healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health)); }
-
-        public float GetFraction() { return (healthPoints.value / GetComponent<BaseStats>().GetStat(Stat.Health)); }
-
         private void Die()
         {
             if(isDead) { return; }
@@ -116,7 +115,6 @@ namespace RPG.Attributes
             GetComponent<Animator>().SetTrigger("die");
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
-
 
         public object CaptureState()
         {
@@ -134,17 +132,12 @@ namespace RPG.Attributes
                 //note the below is to prevent any entities that are in the death state that are not saved as dead to get back into
                 //the general animation loop, very janky
                 GetComponent<Animator>().Play("Locomotion");
-
             }
             else
             {
                 Die();
             }
         }
-
-
-
-
     }
 }
 

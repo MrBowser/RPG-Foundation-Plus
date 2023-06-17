@@ -8,7 +8,6 @@ using GameDevTV.Utils;
 
 namespace RPG.Stats
 {
-
     public class BaseStats : MonoBehaviour
     {
         [Range(1,99)]
@@ -52,7 +51,6 @@ namespace RPG.Stats
             }
         }
 
-
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
@@ -61,7 +59,6 @@ namespace RPG.Stats
                 currentLevel.value = newLevel;
                 LevelUpEffect();
             }
-            
         }
 
         private void LevelUpEffect()
@@ -75,8 +72,6 @@ namespace RPG.Stats
             return (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat)/100);
         }
 
-   
-
         private float GetBaseStat(Stat stat)
         {
             return progression.GetStat(stat, characterClass, GetLevel());
@@ -84,7 +79,6 @@ namespace RPG.Stats
 
         private float GetAdditiveModifier(Stat stat)
         {
-            
             if(!shouldUseModifiers) { return 0; }
 
             float total = 0;
@@ -136,11 +130,7 @@ namespace RPG.Stats
                     return level;
                 }
             }
-
             return penultimateLevel + 1;
         }
-      
     }
-
-
 }

@@ -23,15 +23,10 @@ namespace RPG.Combat
         GameObject instigator = null;
         float damage = 0f;
 
-
-
-
-
         private void Start()
         {
             transform.LookAt(GetAimLocation());
         }
-
 
         void Update()
         {
@@ -42,16 +37,12 @@ namespace RPG.Combat
                 transform.LookAt(GetAimLocation());
             }
             transform.Translate(Vector3.forward * projectileSpeed * Time.deltaTime);
-
-
         }
 
         public void SetTarget(Health target, GameObject instigator, float damage)
         {
             this.instigator = instigator;
-
             this.target = target;
-
             this.damage = damage;
 
             Destroy(gameObject, maxLifetime);
@@ -59,12 +50,8 @@ namespace RPG.Combat
 
         private Vector3 GetAimLocation()
         {
-
-
             CapsuleCollider targetCapsuleCollider = target.GetComponent<CapsuleCollider>();
             if (targetCapsuleCollider == null) { return target.transform.position; }
-
-
 
             return target.transform.position + Vector3.up * targetCapsuleCollider.height / 2;
         }

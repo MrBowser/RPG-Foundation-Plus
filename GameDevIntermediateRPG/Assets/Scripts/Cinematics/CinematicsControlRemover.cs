@@ -21,8 +21,6 @@ namespace RPG.Cinematics
 
         private void Start()
         {
-            
-            
 
         }
 
@@ -40,16 +38,12 @@ namespace RPG.Cinematics
 
         void DisableControl(PlayableDirector pd)
         {
-           
-            
             player.GetComponent<ActionScheduler>().CancelCurrentAction();
             player.GetComponent<PlayerControls>().enabled= false;
-
         }
 
         void EnableControl(PlayableDirector pd)
         {
-            
             player.GetComponent<PlayerControls>().enabled = true;
         }
 

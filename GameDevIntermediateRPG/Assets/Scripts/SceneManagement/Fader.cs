@@ -4,8 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-
-
 namespace RPG.SceneManagement
 {
     public class Fader : MonoBehaviour
@@ -14,12 +12,9 @@ namespace RPG.SceneManagement
         float fadeTime = 1f;
         Coroutine currentActiveFade =null;
        
-
         private void Awake()
         {
             canvasGroup= GetComponent<CanvasGroup>();
-
-            
         }
 
         public void fadeOutImmediate()
@@ -27,6 +22,7 @@ namespace RPG.SceneManagement
             canvasGroup.alpha = 1;
         }
 
+        //below is an example I don't think is ever used
         IEnumerator FadeOutIn()
         {
             yield return FadeOut(fadeTime);
@@ -43,7 +39,6 @@ namespace RPG.SceneManagement
         {
             return Fade(0, time);
         }
-
 
         public Coroutine Fade(float target,float time)
         {
@@ -64,10 +59,7 @@ namespace RPG.SceneManagement
                 print(canvasGroup.alpha);
                 yield return null;
             }
-        }
-
-
-   
+        }   
     }
 }
 

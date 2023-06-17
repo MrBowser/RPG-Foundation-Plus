@@ -14,14 +14,12 @@ namespace RPG.Combat
         Fighter fighter;
         TextMeshProUGUI healthValue;
 
-        // Start is called before the first frame update
         void Awake()
         {
             fighter = GameObject.FindWithTag("Player").GetComponent<Fighter>();
             healthValue = GetComponent<TextMeshProUGUI>();
         }
 
-        // Update is called once per frame
         void Update()
         {
             Health health = fighter.GetTarget();
@@ -29,7 +27,6 @@ namespace RPG.Combat
             if(fighter.GetTarget() != null )
             {
                 healthValue.text = $"{Mathf.Round(health.GetHealthPoints())} / {Mathf.Round(health.GetMaxHealthPoints())}";
-
                 //healthValue.text = $"{Mathf.Round(health.GetPercentage())}%";
             }
             else

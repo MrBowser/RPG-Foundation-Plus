@@ -15,7 +15,6 @@ namespace RPG.Combat
     public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
 
-        
         [SerializeField] float timeBetweenAttacks = 1f;
         [SerializeField] Weapon defaultweapon = null;
 
@@ -28,18 +27,14 @@ namespace RPG.Combat
         LazyValue<WeaponCore> currentWeaponCore;
         float timeSinceLastAttack = Mathf.Infinity;
 
-
-
         private void Awake()
         {
             currentWeaponConfig = defaultweapon;
             currentWeaponCore = new LazyValue<WeaponCore>(SetupDefaultWeapon);
-
         }
 
         private WeaponCore SetupDefaultWeapon()
         {
-
             return AttachWeapon(defaultweapon);
         }
 
@@ -47,14 +42,7 @@ namespace RPG.Combat
         {
             currentWeaponCore.ForceInit();
             //AttachWeapon(currentWeaponConfig);
-            
-  
-            
-            
-            
         }
-
-        
 
         void Update()
         {
@@ -62,7 +50,6 @@ namespace RPG.Combat
 
             if(target == null) { return; }
             if(target.IsDead()) { return; }
-
 
             //note this is a short circuit function
             if (!GetIsInRange())
@@ -101,14 +88,10 @@ namespace RPG.Combat
             return targetToTest != null && !targetToTest.IsDead();
         }
 
-        
-
         public void Attack(GameObject combatTarget)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.GetComponent<Health>();
-
-            
+            target = combatTarget.GetComponent<Health>(); 
         }
 
         private void AttackBehavior()
@@ -118,9 +101,7 @@ namespace RPG.Combat
             {
                 TriggerAttack();
                 timeSinceLastAttack = 0f;
-
             }
-
         }
 
         private void TriggerAttack()
@@ -150,10 +131,8 @@ namespace RPG.Combat
             }
             else
             {
-                
                 target.TakeDamage(gameObject, damage);
             }
-
         }
 
         private void Shoot()
@@ -164,7 +143,6 @@ namespace RPG.Combat
 
         private bool GetIsInRange()
         {
-            
             return Vector3.Distance(transform.position, target.transform.position) <= currentWeaponConfig.GetWeaponRange;
         }
 

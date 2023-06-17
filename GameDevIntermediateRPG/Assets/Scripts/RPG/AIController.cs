@@ -24,7 +24,6 @@ namespace RPG.Control
         Health health;
         Mover mover;
 
-
         LazyValue<Vector3> guardPosition;
         float timeSinceLastSawPlayer =Mathf.Infinity;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
@@ -42,7 +41,6 @@ namespace RPG.Control
 
         private void Start()
         {
-
             guardPosition.ForceInit();
         }
 
@@ -57,18 +55,15 @@ namespace RPG.Control
 
             if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
             {
-                
                 AttackBehavior();
             }
             else if (timeSinceLastSawPlayer < suspicionTime)
             {
-
                 SuspicionBehavior();
             }
             else
             {
                 PatrolBehavior();
-
             }
             UpdateTimers();
         }
@@ -90,14 +85,12 @@ namespace RPG.Control
                     timeSinceArrivedAtWaypoint = 0;
                     CycleWaypoint();
                 }
-
                 nextPosition = GetCurrentWaypoint();
             }
             if(timeSinceArrivedAtWaypoint > waypointDwellTime )
             {
                 mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             }
-            
         }
 
         private bool AtWaypoint()
@@ -115,8 +108,6 @@ namespace RPG.Control
         {
             return patrolPath.GetWayPoint(currentWaypointIndex);
         }
-
-    
 
         private void SuspicionBehavior()
         {

@@ -7,7 +7,6 @@ namespace RPG.Combat
 {
     public class WeaponCore : MonoBehaviour
     {
-
         [SerializeField] UnityEvent onHit;
 
         public void OnHit()

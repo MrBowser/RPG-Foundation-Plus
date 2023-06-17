@@ -22,7 +22,6 @@ namespace RPG.Movement
         {
             navMeshAgent= GetComponent<NavMeshAgent>();
             health = GetComponent<Health>();
-
         }
 
         private void Start()
@@ -37,8 +36,6 @@ namespace RPG.Movement
             UpdateAnimator();
         }
 
-
-
         public void StartMoveAction(Vector3 destination, float speedFraction)
         {
             GetComponent<ActionScheduler>().StartAction(this);
@@ -51,14 +48,12 @@ namespace RPG.Movement
             navMeshAgent.destination = destination;
             navMeshAgent.speed = Mathf.Clamp01(speedFraction) * maxSpeed;
             navMeshAgent.isStopped = false;
-
         }
 
         public void Cancel()
         {
             navMeshAgent.isStopped = true;
         }
-
 
         private void UpdateAnimator()
         {
@@ -68,7 +63,6 @@ namespace RPG.Movement
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat("forwardSpeed", speed);
-
         }
 
         [System.Serializable]
@@ -78,7 +72,6 @@ namespace RPG.Movement
             public SerializableVector3 rotation;
         }
 
-
         public object CaptureState()
         {
            MoverSaveData data = new MoverSaveData();
@@ -86,16 +79,15 @@ namespace RPG.Movement
             data.rotation = new SerializableVector3(transform.eulerAngles);
             //note serializable vector 3 is a class script in saving
             return data;
-            
         }
 
         public void RestoreState(object state)
         {
-
+            //note the navmesh toggling is due to a potential glitch with restore
             MoverSaveData data = (MoverSaveData)state;
 
-
             GetComponent<NavMeshAgent>().enabled = false;
+
             transform.position = data.position.ToVector();
             transform.eulerAngles = data.rotation.ToVector();
 

@@ -47,11 +47,8 @@ namespace RPG.Combat
             else if (overrideController != null)
             {
                 animator.runtimeAnimatorController = overrideController.runtimeAnimatorController;
-
             }
-
             return weapon;
-
         }
 
         private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
@@ -72,7 +69,6 @@ namespace RPG.Combat
         {
             Projectile projectileInstance = Instantiate(projectile, GetTransform(rightHand,leftHand).position, Quaternion.identity);
             projectileInstance.SetTarget(target, instigator, calculatedDamage);
-
         }
 
         public bool HasProjectile()
@@ -91,7 +87,6 @@ namespace RPG.Combat
             {
                 handTransform = leftHandTransform;
             }
-
             return handTransform;
         }
 

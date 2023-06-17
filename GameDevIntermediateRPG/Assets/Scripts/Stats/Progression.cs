@@ -67,12 +67,9 @@ namespace RPG.Stats
                 {
                     statLookupTable[progressionStat.stat] = progressionStat.levels;
                 }
-                
                 lookupTable[progressionClass.characterClass] = statLookupTable;
             }
         }
-
-
 
         [System.Serializable]
         class ProgressionCharacterClass
