@@ -61,8 +61,6 @@ namespace RPG.Attributes
         {
             healthPoints.value = Mathf.Max(healthPoints.value - damage,0);
 
-            print(gameObject.name + "took damage: " + damage);
-
             if(healthPoints.value ==0)
             {
                 onDie.Invoke();

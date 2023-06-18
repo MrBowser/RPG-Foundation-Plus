@@ -14,10 +14,12 @@ namespace RPG.Control
     {
         [SerializeField] float chaseDistance = 5f;
         [SerializeField] float suspicionTime = 3f;
+        [SerializeField] float aggravatedCDTime = 4f;
         [SerializeField] PatrolPath patrolPath;
         [SerializeField] float wayPointTolerance = 1f;
         [SerializeField] float waypointDwellTime = 2f;
         [Range(0f, 1f)][SerializeField] float patrolSpeedFraction = .5f;
+        [SerializeField] float shoutDistance = 5f;
 
         Fighter fighter;
         GameObject player;
@@ -27,6 +29,7 @@ namespace RPG.Control
         LazyValue<Vector3> guardPosition;
         float timeSinceLastSawPlayer =Mathf.Infinity;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
+        float timeSinceAggravated = Mathf.Infinity;
         int currentWaypointIndex = 0;
 
         private void Awake()
@@ -53,7 +56,7 @@ namespace RPG.Control
         {
             if (health.IsDead()) { return; }
 
-            if (InAttackRangeOfPlayer() && fighter.CanAttack(player))
+            if (IsAggravated() && fighter.CanAttack(player))
             {
                 AttackBehavior();
             }
@@ -68,10 +71,12 @@ namespace RPG.Control
             UpdateTimers();
         }
 
+        
         private void UpdateTimers()
         {
             timeSinceLastSawPlayer += Time.deltaTime;
             timeSinceArrivedAtWaypoint += Time.deltaTime;
+            timeSinceAggravated += Time.deltaTime;
         }
 
         private void PatrolBehavior()
@@ -118,13 +123,34 @@ namespace RPG.Control
         {
             timeSinceLastSawPlayer = 0;
             fighter.Attack(player);
+
+            AggravateNearbyEnemies();
         }
 
-        private bool InAttackRangeOfPlayer()
+        private void AggravateNearbyEnemies()
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, shoutDistance, Vector3.up, 0);
+            foreach (RaycastHit hit in hits)
+            {
+                AIController ai = hit.collider.GetComponent<AIController>();
+                if(ai == null) { continue; }
+
+                ai.Aggravate();
+
+            }
+        }
+
+        public void Aggravate()
+        {
+            timeSinceAggravated = 0;
+        }
+
+
+        private bool IsAggravated()
         {
 
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            return distanceToPlayer < chaseDistance;
+            return distanceToPlayer < chaseDistance || timeSinceAggravated < aggravatedCDTime ;
         }
 
         //this is a special method that is called by Unity like start or update, shows gizmos when object is selected
